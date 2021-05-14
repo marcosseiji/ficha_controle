@@ -1,0 +1,90 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <Dialog title="{/dialogTitle}" afterClose="onAfterClose" beforeOpen="onBeforeOpen" class="sapUiSizeCompact" contentHeight="100%" contentWidth="50%">
+        <Panel id="itemPanel" expanded="true">
+
+            <f:SimpleForm id="form_new_record" editable="true">
+                <f:content>
+
+                    <Label text="{i18n>label_filterPlant}" visible="{/isEditView}" />
+                    <ComboBox id="combo_plant" items="{ path: '/Plants', sorter: { path: 'text' } }" required="true" visible="{/isEditView}">
+                        <core:Item key="{CD_PLANT}" text="{DS_PLANT}"/>
+                    </ComboBox>
+
+                    <Label text="{i18n>label_filterPlant}" visible="{= !${/isEditView}}" />
+                    <Input id="CD_PLANT"  value="{line>/DS_PLANT}" visible="{= !${/isEditView}}" enabled="false" required="true" />
+
+                    <Label text="{i18n>label_filterLoteOp}" />
+                    <Input id="LOTE_OP"  value="{line>/LOTE_OP}" enabled="{/isEditView}"  required="true" />
+
+                    <Label text="{i18n>label_filterCodProd}" />
+                    <Input id="COD_PROD"  value="{line>/COD_PROD}" required="true" />
+
+                    <Label text="{i18n>DESC_PROD}" />
+                   <Input id="DESC_PROD" value="{line>/DESC_PROD}" />
+
+                   <Label text="{i18n>FAB_DATA}" />
+                   <DateTimePicker id="FAB_DATA" displayFormat="short" valueFormat="yyyy-MM-dd HH:mm:ss"  value="{line>/FAB_DATA}" />
+                   
+                   <Label text="{i18n>VAL_DATA}" />
+                   <DateTimePicker id="VAL_DATA" displayFormat="short" valueFormat="yyyy-MM-dd HH:mm:ss"  value="{line>/VAL_DATA}" />
+
+                </f:content>
+            </f:SimpleForm>
+
+            <ScrollContainer
+                id="containerForm"
+                width="100%"
+                horizontal="false"
+                vertical="false">
+                
+
+
+                    <f:SimpleForm id="form_defect" editable="true" title="{i18n>TIT_F_MANIPULACAO}" visible="{/formDefVisible}">
+                        <f:content>
+
+                            <Label text="{i18n>AREA_IND}" />
+                            <Switch customTextOn="{i18n>SWITCH_YES}" customTextOff="{i18n>SWITCH_NO}" state="{ path: 'line>/IDENT_AREA', formatter: '.formatter.yesNo' }" name="IDENT_AREA" change="onChangeSwitch" />
+
+                            <Label text="{i18n>EQUIP_LIMP}" />
+                            <Switch customTextOn="{i18n>SWITCH_YES}" customTextOff="{i18n>SWITCH_NO}" state="{ path: 'line>/LIMP_EQUIP', formatter: '.formatter.yesNo' }" name="LIMP_EQUIP" change="onChangeSwitch" />
+                            
+                            <Label text="{i18n>MANIP_UNI}" />
+                            <Switch customTextOn="{i18n>SWITCH_YES}" customTextOff="{i18n>SWITCH_NO}" state="{ path: 'line>/MANIP_UNI', formatter: '.formatter.yesNo' }" name="MANIP_UNI" change="onChangeSwitch" />
+
+                            <Label text="{i18n>AMB_LIMP}" />
+                            <Switch customTextOn="{i18n>SWITCH_YES}" customTextOff="{i18n>SWITCH_NO}" state="{ path: 'line>/LIM_AMB', formatter: '.formatter.yesNo' }" name="LIM_AMB" change="onChangeSwitch" />
+
+                            <Label text="{i18n>SOBRA_MAT}" />
+                            <Switch customTextOn="{i18n>SWITCH_YES}" customTextOff="{i18n>SWITCH_NO}" state="{ path: 'line>/SOBRA_MAT', formatter: '.formatter.yesNo' }" name="SOBRA_MAT" change="onChangeSwitch" />
+
+
+                        </f:content>
+                    </f:SimpleForm>
+            </ScrollContainer>
+
+
+                <f:SimpleForm id="form_equip_rel" editable="true" title="{i18n>TIT_F_EQUIP_REL}" visible="{/formDefVisible}">
+                <f:content>
+
+                    <Label text="Reator de Fabricação" />
+                    <CheckBox id="reat_fab_tq06" text="TANQ06" />
+		            <CheckBox id="reat_fab_tq07" text="TANQ07" />
+
+                    <Label text="Tanque auxiliar de Aquecimento" />
+                    <CheckBox id="tq_aux_tq01" text="TANQ01" />
+		            <CheckBox id="tq_aux_tq31" text="TANQ31" />
+    
+                </f:content>
+            </f:SimpleForm>
+
+        </Panel>
+        <buttons>
+            <Button text="{i18n>button_save}" type="Accept" icon="sap-icon://accept" press="onSave"/>
+            <Button text="{i18n>button_cancel}" type="Reject" icon="sap-icon://decline" press="onCancel"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

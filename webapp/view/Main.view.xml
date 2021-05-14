@@ -1,0 +1,245 @@
+<mvc:View controllerName="konitech.Liquidos.controller.Main" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    class="sapUiSizeCompact"
+    displayBlock="true" 
+	xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:vm="sap.ui.comp.variants"
+	xmlns:t="sap.ui.table">
+	<Shell id="shell" appWidthLimited="false">
+		<App id="app">
+	<f:DynamicPage id="mainPage" headerExpanded="{/headerExpanded}">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title id="title" text="{i18n>head_title}"/>
+				</f:heading>
+				                <f:actions>
+                
+                    <ToolbarSpacer/>
+                    <Image src="img/Ajinomoto.png" width="100px" />
+
+                </f:actions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Header -->
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<f:content>
+					<fb:FilterBar id="filterbar" useToolbar="false" showGoOnFB="false" showFilterConfiguration="false">
+						<fb:filterItems>
+							<fb:FilterItem name="filterPlant" label="{i18n>label_filterPlant}">
+								<fb:control>
+									<ComboBox id="combo_plant" items="{ path: '/Plants', sorter: { path: 'text' } }" change="onChangePlant" required="false" >
+										<core:Item key="{CD_PLANT}" text="{DS_PLANT}"/>
+									</ComboBox>
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="dt_start" label="{i18n>label_filterDtIniProg}">
+								<fb:control>
+									<DateTimePicker id="dt_start" change="onChangeDtIni" displayFormat="short" valueFormat="yyyy-MM-dd HH:mm:ss" required="false" />
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="dt_end" label="{i18n>label_filterDtFimProg}">
+								<fb:control>
+									<DateTimePicker id="dt_end" change="onChangeDtFim" displayFormat="short" valueFormat="yyyy-MM-dd HH:mm:ss" required="false" />
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="filterLoteOp" label="{i18n>label_filterLoteOp}">
+								<fb:control>
+                                    <Input xmlns="sap.m" id="lote_op" />
+								</fb:control>
+							</fb:FilterItem>
+							<fb:FilterItem name="filterCodProd" label="{i18n>label_filterCodProd}">
+								<fb:control>
+                                    <Input xmlns="sap.m" id="cod_prod" />
+								</fb:control>
+							</fb:FilterItem>
+						</fb:filterItems>
+					</fb:FilterBar>
+					<Toolbar width="100%" id="tb_buttons" height="70px">
+						<ToolbarSpacer/>
+						<Button press="onSearch" text="{i18n>button_search}" id="bt_search" type="Emphasized" />
+						<Button type="Emphasized" text="{i18n>button_new}" press="onNew"  />
+						<ToolbarSpacer/>
+					</Toolbar>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+		<!-- DynamicPage Content -->
+		<f:content >
+
+			<t:Table id="table_liquidos"  rows="{/Liquidos}" rowActionCount="1" alternateRowColors="true" selectionMode="MultiToggle" selectionBehavior="Row" visibleRowCountMode="Auto">
+				<t:extension>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button id="exportConsumedBatches" text="{i18n>buttonExportCSV}" icon="sap-icon://excel-attachment" press="onExport" enabled="{/enableExport}" />
+					</OverflowToolbar>
+				</t:extension>
+				<t:columns>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="7rem">
+						<Label text="{i18n>DS_PLANT}" />
+						<t:template>
+							<Text text="{DS_PLANT}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="7rem">
+						<Label text="{i18n>LOTE_OP}" />
+						<t:template>
+							<Text text="{LOTE_OP}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>COD_PROD}" />
+						<t:template>
+							<Text text="{COD_PROD}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="25rem">
+						<Label text="{i18n>DESC_PROD}" />
+						<t:template>
+							<Text text="{DESC_PROD}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+							<Label text="{i18n>EXEC_POR}" />
+						<t:template>
+							<Text text="{EXEC_POR}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true"  hAlign="Center" width="10rem">
+							<Label text="{i18n>DT_EXEC}" />
+						<t:template>
+							<Text text="{ path: 'DT_EXEC', formatter: '.formatter.localeDate' }"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true"  hAlign="Center" width="10rem">
+							<Label text="{i18n>VER_POR}" />
+						<t:template>
+							<Text text="{VER_POR}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true"  hAlign="Center" width="10rem">
+							<Label text="{i18n>DT_VER}" />
+						<t:template>
+							<Text text="{ path: 'DT_VER', formatter: '.formatter.localeDate' }"/>
+						</t:template>
+					</t:Column>
+
+					<!-- <t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>REG_MS}" />
+						<t:template>
+							<Text text="{REG_MS}"/>
+						</t:template>
+					</t:Column> -->
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>FAB_DATA}" />
+						<t:template>
+							<Text text="{ path: 'FAB_DATA', formatter: '.formatter.localeDate' }"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>VAL_DATA}" />
+						<t:template>
+							<Text text="{path: 'VAL_DATA' , formatter: '.formatter.localeDate' }"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>LIB_AREA_DATA}" />
+						<t:template>
+							<Text text="{path: 'LIB_AREA_DATA', formatter: '.formatter.localeDate'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem" >
+						<Label text="{i18n>IDENT_AREA}" />
+						<t:template>
+							<ObjectStatus  text="{path: 'IDENT_AREA', formatter: '.formatter.formatterSN'}" state="{path: 'IDENT_AREA', formatter: '.formatter.color'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>LIMP_EQUIP}" />
+						<t:template>
+                            <ObjectStatus  text="{path: 'LIMP_EQUIP', formatter: '.formatter.formatterSN'}" state="{path: 'LIMP_EQUIP', formatter: '.formatter.color'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>MANIP_UNI}" />
+						<t:template>
+                            <ObjectStatus  text="{path: 'MANIP_UNI', formatter: '.formatter.formatterSN'}" state="{path: 'MANIP_UNI', formatter: '.formatter.color'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>LIM_AMB}" />
+						<t:template>
+                            <ObjectStatus  text="{path: 'LIM_AMB', formatter: '.formatter.formatterSN'}" state="{path: 'LIM_AMB', formatter: '.formatter.color'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>SOBRA_MAT}" />
+						<t:template>
+                            <ObjectStatus  text="{path: 'SOBRA_MAT', formatter: '.formatter.formatterSN'}" state="{path: 'SOBRA_MAT', formatter: '.formatter.color'}"/>
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>REATOR_FAB}" />
+						<t:template>
+							<Text text="{REATOR_FAB}"/>
+                            
+						</t:template>
+					</t:Column>
+
+					<t:Column resizable="true" autoResizable="true" hAlign="Center" width="10rem">
+						<Label text="{i18n>TANQUE_AUX}" />
+						<t:template>
+							<Text text="{TANQUE_AUX}"/>
+						</t:template>
+					</t:Column>
+
+				</t:columns>
+                <!-- <t:footer>
+                    <Label text="Total" />
+
+                </t:footer> -->
+				<t:rowActionTemplate >
+					<t:RowAction visible="{/isBtEditVisible}">
+						<t:items>
+							<t:RowActionItem type="Custom" icon="sap-icon://edit" press="onEdit"></t:RowActionItem>
+						</t:items>
+					</t:RowAction>
+				</t:rowActionTemplate>
+			</t:Table>
+
+		</f:content>
+		<!-- DynamicPage Footer -->
+		<f:footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button type="Default" text="{i18n>button_clear}" enabled="{/enabled}" press="onClear"/>
+				<Button type="Accept" text="{i18n>button_approve}" enabled="{/enabled}" press="onApprove"/>
+				<!-- <Button type="Reject" text="{i18n>button_disapprove}" enabled="{/enabled}" press="onDisapprove"/> -->
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+		</App>
+	</Shell>
+</mvc:View>
